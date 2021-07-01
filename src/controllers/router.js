@@ -9,7 +9,6 @@ const home = require('./home'),
 // home
 router.post('/signup', home.signup)
 router.post('/signin', home.signin)
-router.post('/refresh', home.refresh)
 // projects
 router.post('/proadd', auth.verify_user, project.add)
 router.post('/proupdate', auth.verify_user, project.update)

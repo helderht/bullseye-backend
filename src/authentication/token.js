@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken'),
 module.exports = {
   encode: async (_id, email, name, img) => {
     const tkn = jwt.sign({_id, email, name, img}, process.env.SECRET_KEY, {
-      expiresIn: '1m'
+      expiresIn: '1d'
     })
     return tkn
   },

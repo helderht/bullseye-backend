@@ -8,7 +8,7 @@ mongoose
     useUnifiedTopology: true
   })
   .then(() => {
-    console.log('Mongo BD run')
+    console.log('MongoDB run')
   })
   .catch(e => {
     console.log(e)

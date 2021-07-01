@@ -32,5 +32,5 @@ io.on('connection', socket => {
 })
 
 server.listen(app.get('port'), () => {
-  console.log('API run: ', app.get('port'))
+  console.log('API run')
 })
