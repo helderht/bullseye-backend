@@ -4,7 +4,7 @@ mongoose
   .connect(process.env.DATABASE, {
     useCreateIndex: true,
     useNewUrlParser: true,
-    useFindAndModify: true,
+    useFindAndModify: false,
     useUnifiedTopology: true
   })
   .then(() => {
