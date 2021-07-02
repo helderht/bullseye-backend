@@ -4,6 +4,7 @@ const router = require('express').Router(),
 
 const home = require('./home'),
   project = require('./project'),
+  collaboration = require('./collaboration'),
   category = require('./category')
 
 // home
@@ -12,10 +13,15 @@ router.post('/signin', home.signin)
 // projects
 router.post('/proadd', auth.verify_user, project.add)
 router.post('/proupdate', auth.verify_user, project.update)
-router.delete('/proremove', auth.verify_user, project.remove)
+router.delete('/proremove/:idpro', auth.verify_user, project.remove)
 router.get('/proall', auth.verify_user, project.all)
 router.get('/proonly/:idpro', auth.verify_user, project.only)
 router.get('/prokey/:idpro', auth.verify_user, project.key)
+// collaborations
+router.post('/coladd', auth.verify_user, collaboration.add)
+router.delete('/colremove/:idcol', auth.verify_user, collaboration.remove)
+router.get('/colall', auth.verify_user, collaboration.all)
+router.get('/colteam/:idpro', auth.verify_user, collaboration.team)
 // categories
 router.post('/catadd', auth.verify_user, category.add)
 router.post('/catupdate', auth.verify_user, category.update)
