@@ -5,6 +5,7 @@ const router = require('express').Router(),
 const home = require('./home'),
   project = require('./project'),
   collaboration = require('./collaboration'),
+  estimate = require('./estimate'),
   category = require('./category')
 
 // home
@@ -22,6 +23,11 @@ router.post('/coladd', auth.verify_user, collaboration.add)
 router.delete('/colremove/:idcol', auth.verify_user, collaboration.remove)
 router.get('/colall', auth.verify_user, collaboration.all)
 router.get('/colteam/:idpro', auth.verify_user, collaboration.team)
+// estimates
+router.post('/estadd', auth.verify_user, estimate.add)
+router.post('/estupdate', auth.verify_user, estimate.update)
+router.delete('/estremove/:idest', auth.verify_user, estimate.remove)
+router.get('/estall/:idpro', auth.verify_user, estimate.all)
 // categories
 router.post('/catadd', auth.verify_user, category.add)
 router.post('/catupdate', auth.verify_user, category.update)
