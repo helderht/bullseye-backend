@@ -6,6 +6,9 @@ const home = require('./home'),
   project = require('./project'),
   collaboration = require('./collaboration'),
   estimate = require('./estimate'),
+  fp = require('./fp'),
+  sp = require('./sp'),
+  ucp = require('./ucp'),
   category = require('./category')
 
 // home
@@ -28,6 +31,21 @@ router.post('/estadd', auth.verify_user, estimate.add)
 router.post('/estupdate', auth.verify_user, estimate.update)
 router.delete('/estremove/:idest', auth.verify_user, estimate.remove)
 router.get('/estall/:idpro', auth.verify_user, estimate.all)
+// function points
+router.post('/fpupdate', auth.verify_user, fp.update)
+router.delete('/fpremove/:idshot', auth.verify_user, fp.remove)
+router.get('/fpall/:idest', auth.verify_user, fp.all)
+router.get('/fponly/:idshot', auth.verify_user, fp.only)
+// story points
+router.post('/spupdate', auth.verify_user, sp.update)
+router.delete('/spremove/:idshot', auth.verify_user, sp.remove)
+router.get('/spall/:idest', auth.verify_user, sp.all)
+router.get('/sponly/:idshot', auth.verify_user, sp.only)
+// use case points
+router.post('/ucpupdate', auth.verify_user, ucp.update)
+router.delete('/ucpremove/:idshot', auth.verify_user, ucp.remove)
+router.get('/ucpall/:idest', auth.verify_user, ucp.all)
+router.get('/ucponly/:idshot', auth.verify_user, ucp.only)
 // categories
 router.post('/catadd', auth.verify_user, category.add)
 router.post('/catupdate', auth.verify_user, category.update)
