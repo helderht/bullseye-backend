@@ -31,8 +31,9 @@ module.exports = {
             res.status(200).json(added)
           }
         }
+      } else {
+        res.status(403).json('Código invalido')
       }
-      res.status(403).json('Código invalido')
     } catch (error) {
       res.status(500).send(error)
     }
