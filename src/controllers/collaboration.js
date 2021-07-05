@@ -1,6 +1,8 @@
 const Collaborations = require('../models/collaborations'),
   Projects = require('../models/projects'),
-  md5 = require('md5')
+  md5 = require('md5'),
+  {reg_act} = require('../utilities/help_activity'),
+  {notify_col, notify_owner} = require('../utilities/help_notification')
 
 module.exports = {
   add: async (req, res) => {
@@ -26,8 +28,12 @@ module.exports = {
           } else {
             const add = new Collaborations({id_project: found._id, id_user: req.info_user._id})
             const added = await add.save()
-            // TODO: registrar actividad
-            // TODO: notificar al equipo
+            // registrar actividad
+            reg_act('Unirse a proyecto', found._id, req.info_user._id)
+            // notificar al propietario
+            notify_owner(`Colaborador nuevo en ${found.name}`, found._id, found.id_user)
+            // notificar colaboradores
+            notify_col(`Colaborador nuevo en ${found.name}`, found._id, req.info_user._id)
             res.status(200).json(added)
           }
         }

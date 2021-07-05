@@ -1,6 +1,8 @@
 //imports
 const Projects = require('../models/projects'),
-  md5 = require('md5')
+  md5 = require('md5'),
+  {reg_act} = require('../utilities/help_activity'),
+  {notify_team} = require('../utilities/help_notification')
 
 module.exports = {
   add: async (req, res) => {
@@ -14,18 +16,21 @@ module.exports = {
       key_access = Date.now().toString()
       add.key = md5(key_access)
       const added = await add.save()
-      // TODO: registrar la actividad
+      // registro de actividad
+      reg_act('Crear proyecto', added._id, req.info_user._id)
       res.status(200).json({added, key_access})
     } catch (error) {
       res.status(500).send(error)
     }
   },
   update: async (req, res) => {
-    // console.log(req.body)
     try {
       const updated = await Projects.findByIdAndUpdate(req.body._id, req.body)
       if (updated) {
-        // registrar la actividad
+        // registro de actividad
+        reg_act('Actualizar proyecto', updated._id, req.info_user._id)
+        // notificar colaboradores
+        notify_team(`Proyecto ${updated.name} actualizado`, updated._id)
         res.status(200).json(updated)
       }
     } catch (error) {

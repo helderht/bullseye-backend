@@ -1,7 +1,9 @@
 const Estimates = require('../models/estimates'),
   FPsnapshots = require('../models/snapshots_fp'),
   SPsnapshots = require('../models/snapshots_sp'),
-  UCPsnapshots = require('../models/snapshots_ucp')
+  UCPsnapshots = require('../models/snapshots_ucp'),
+  {reg_act} = require('../utilities/help_activity'),
+  {notify_team} = require('../utilities/help_notification')
 
 module.exports = {
   add: async (req, res) => {
@@ -13,6 +15,10 @@ module.exports = {
         id_owner: req.info_user._id
       })
       const addedEst = await addEst.save()
+      // registrar actividad
+      reg_act('Crear estimación', addedEst.id_project, req.info_user._id)
+      //notificar a equipo
+      notify_team(`Estimación ${addedEst.name} creada`, addedEst.id_project)
       switch (req.body.way) {
         case 'fp':
           const addFP = new FPsnapshots({
@@ -48,7 +54,6 @@ module.exports = {
           console.log('método de estimación invalido')
           res.status(404).json('método de estimación invalido')
       }
-      // TODO: registrar actividad
     } catch (error) {
       res.status(500).send(error)
     }

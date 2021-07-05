@@ -9,6 +9,8 @@ const home = require('./home'),
   fp = require('./fp'),
   sp = require('./sp'),
   ucp = require('./ucp'),
+  activity = require('./activity'),
+  notification = require('./notification'),
   category = require('./category')
 
 // home
@@ -46,6 +48,12 @@ router.post('/ucpupdate', auth.verify_user, ucp.update)
 router.delete('/ucpremove/:idshot', auth.verify_user, ucp.remove)
 router.get('/ucpall/:idest', auth.verify_user, ucp.all)
 router.get('/ucponly/:idshot', auth.verify_user, ucp.only)
+// activities
+router.get('/actall/:idpro', auth.verify_user, activity.all)
+// notifications
+router.delete('/notremove/:idnot', auth.verify_user, notification.remove)
+router.post('/notclean/:idpro', auth.verify_user, notification.clean)
+router.get('/notall', auth.verify_user, notification.all)
 // categories
 router.post('/catadd', auth.verify_user, category.add)
 router.post('/catupdate', auth.verify_user, category.update)
