@@ -12,7 +12,7 @@ module.exports = {
       // registrar actividad
       const estimate = await Estimates.findById(added.id_estimate)
       if (estimate) {
-        reg_act('Crear Snapshot', estimate.id_project, req.info_user._id)
+        reg_act('Crear Snapshot P. Función', estimate.id_project, req.info_user._id)
         if (req.info_user._id.toString() === estimate.id_owner.toString()) {
           notify_team(`Snapshot agregado en ${estimate.name}`, estimate.id_project)
         } else {

@@ -44,7 +44,7 @@ router.delete('/spremove/:idshot', auth.verify_user, sp.remove)
 router.get('/spall/:idest', auth.verify_user, sp.all)
 router.get('/sponly/:idshot', auth.verify_user, sp.only)
 // use case points
-router.post('/ucpupdate', auth.verify_user, ucp.update)
+router.post('/ucpadd', auth.verify_user, ucp.add)
 router.delete('/ucpremove/:idshot', auth.verify_user, ucp.remove)
 router.get('/ucpall/:idest', auth.verify_user, ucp.all)
 router.get('/ucponly/:idshot', auth.verify_user, ucp.only)
