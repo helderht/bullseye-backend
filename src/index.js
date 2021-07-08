@@ -64,6 +64,9 @@ io.on('connection', socket => {
   // estimate remove
 
   // snapshot add
+  socket.on('snapshot-add', ({room}) => {
+    socket.broadcast.to(room).emit('update-notifications', {msg: 'snapshot creado'})
+  })
   // sanpshot update
   // sanpshot remove
 

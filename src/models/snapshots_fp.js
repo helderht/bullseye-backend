@@ -1,11 +1,29 @@
 const {Schema, model, ObjectId} = require('mongoose')
 
 const FPsnapshotsSchema = new Schema({
-  requirement: {type: Array},
-  factors: {type: Array},
-  params: {type: Object},
-  aprox: {type: Object},
-  otros: {type: Array},
+  requirements: {type: Array},
+  factors: {
+    type: Array,
+    default: [
+      {pts: 0},
+      {pts: 0},
+      {pts: 0},
+      {pts: 0},
+      {pts: 0},
+      {pts: 0},
+      {pts: 0},
+      {pts: 0},
+      {pts: 0},
+      {pts: 0},
+      {pts: 0},
+      {pts: 0},
+      {pts: 0},
+      {pts: 0}
+    ]
+  },
+  params: {type: Object, default: {hours: 1, days: 1, pays: 0}},
+  aprox: {type: Object, default: {time: 0, cost: 0, team: 1, productivity: 8, effort: 0}},
+  others: {type: Array},
   commit: {type: String, required: true},
   branch: {type: String, required: true},
   modifiedIn: {type: Date, default: Date.now},

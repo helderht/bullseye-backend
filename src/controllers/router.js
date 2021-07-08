@@ -34,7 +34,7 @@ router.post('/estupdate', auth.verify_user, estimate.update)
 router.delete('/estremove/:idest', auth.verify_user, estimate.remove)
 router.get('/estall/:idpro', auth.verify_user, estimate.all)
 // function points
-router.post('/fpupdate', auth.verify_user, fp.update)
+router.post('/fpadd', auth.verify_user, fp.add)
 router.delete('/fpremove/:idshot', auth.verify_user, fp.remove)
 router.get('/fpall/:idest', auth.verify_user, fp.all)
 router.get('/fponly/:idshot', auth.verify_user, fp.only)
