@@ -39,7 +39,7 @@ router.delete('/fpremove/:idshot', auth.verify_user, fp.remove)
 router.get('/fpall/:idest', auth.verify_user, fp.all)
 router.get('/fponly/:idshot', auth.verify_user, fp.only)
 // story points
-router.post('/spupdate', auth.verify_user, sp.update)
+router.post('/spadd', auth.verify_user, sp.add)
 router.delete('/spremove/:idshot', auth.verify_user, sp.remove)
 router.get('/spall/:idest', auth.verify_user, sp.all)
 router.get('/sponly/:idshot', auth.verify_user, sp.only)

@@ -1,11 +1,11 @@
 const {Schema, model, ObjectId} = require('mongoose')
 
 const SPsnapshotsSchema = new Schema({
-  pivot: {type: Object},
+  pivot: {type: Object, default: {detail: 'Elige la historia de referencia', pts: 0}},
   stories: {type: Array},
-  params: {type: Object},
-  aprox: {type: Object},
-  otros: {type: Array},
+  params: {type: Object, default: {hours: 1, days: 1, sprint: 1, pays: 0}},
+  aprox: {type: Object, default: {time: 0, cost: 0, team: 1, velocity: 1}},
+  others: {type: Array},
   commit: {type: String, required: true},
   branch: {type: String, required: true},
   modifiedIn: {type: Date, default: Date.now},

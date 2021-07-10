@@ -2,7 +2,6 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 
-const {SSL_OP_NO_TICKET} = require('constants')
 // imports
 const http = require('http'),
   path = require('path'),
@@ -26,7 +25,8 @@ app
 
 // sockets
 const server = http.createServer(app),
-  io = socketIO(server, {cors: {origins: process.env.URL_CLIENT}})
+  io = socketIO(server, {cors: {origins: process.env.URL_CLIENT}}),
+  {user_join, user_leave, get_members} = require('./utilities/help_poker')
 
 io.on('connection', socket => {
   console.log(socket.id, ': conectado')
@@ -71,14 +71,36 @@ io.on('connection', socket => {
   // sanpshot remove
 
   // poker join
+  socket.on('join-poker', ({room, client}) => {
+    const member = user_join(room, socket.id, client.name, client.img)
+    socket.join(room)
+    // info-poker
+    io.to(room).emit('info-poker', {members: get_members(room)})
+    io.to(room).emit('joined-poker', {msg: `${client.name} se ha unido a ${room}`})
+  })
   // poker leave
-  // poker message
-  // poker card
-  // poker next
-  // poker previous
-  // poker confirm
-  // poker undo
+  socket.on('leave-room', ({room, client}) => {
+    socket.leave(room)
+    const member = user_leave(socket.id)
+    // info-poker
+    if (member) io.to(member.room).emit('info-poker', {members: get_members(member.room)})
+  })
   // poker refresh
+  socket.on('refresh', ({room, stories, pivot, temp_index}) => {
+    io.to(room).emit('refreshed', {stories, pivot, temp_index})
+  })
+  // poker refresh-board
+  socket.on('refresh-board', ({room, board}) => {
+    io.to(room).emit('update-board', {board})
+  })
+  // poker message
+
+  // disconnect
+  socket.on('disconnect', () => {
+    const member = user_leave(socket.id)
+    // info-poker
+    if (member) io.to(member.room).emit('info-poker', {members: get_members(member.room)})
+  })
 })
 
 // run
