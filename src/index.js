@@ -94,7 +94,9 @@ io.on('connection', socket => {
     io.to(room).emit('update-board', {board})
   })
   // poker message
-
+  socket.on('refresh-messages', ({room}) => {
+    io.to(room).emit('upload-messages', {msg: 'cargar mensajes'})
+  })
   // disconnect
   socket.on('disconnect', () => {
     const member = user_leave(socket.id)

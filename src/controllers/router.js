@@ -11,6 +11,7 @@ const home = require('./home'),
   ucp = require('./ucp'),
   activity = require('./activity'),
   notification = require('./notification'),
+  message = require('./message'),
   category = require('./category')
 
 // home
@@ -54,6 +55,9 @@ router.get('/actall/:idpro', auth.verify_user, activity.all)
 router.delete('/notremove/:idnot', auth.verify_user, notification.remove)
 router.post('/notclean/:idpro', auth.verify_user, notification.clean)
 router.get('/notall', auth.verify_user, notification.all)
+// messages
+router.post('/mesadd', auth.verify_user, message.add)
+router.get('/mesall/:idshot', auth.verify_user, message.all)
 // categories
 router.post('/catadd', auth.verify_user, category.add)
 router.post('/catupdate', auth.verify_user, category.update)
