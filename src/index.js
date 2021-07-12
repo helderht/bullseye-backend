@@ -69,6 +69,9 @@ io.on('connection', socket => {
   })
   // sanpshot update
   // sanpshot remove
+  socket.on('snapshot-remove', ({room}) => {
+    socket.broadcast.to(room).emit('update-notifications', {msg: 'snapshot eliminado'})
+  })
 
   // poker join
   socket.on('join-poker', ({room, client}) => {

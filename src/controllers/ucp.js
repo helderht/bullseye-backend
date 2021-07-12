@@ -36,7 +36,36 @@ module.exports = {
     }
   },
   remove: async (req, res) => {
-    res.send('remove')
+    try {
+      const removed = await UCPsnapshots.findByIdAndDelete(req.params.idshot)
+      if (removed) {
+        //registrar actividad
+        const estimate = await Estimates.findById(removed.id_estimate)
+        if (estimate) {
+          reg_act('Eliminar snapshot P. casos de uso', estimate.id_project, req.info_user._id)
+          if (req.info_user._id.toString() === estimate.id_owner.toString()) {
+            notify_team(
+              `Snapshot ${removed._id} eliminado en ${estimate.name}`,
+              estimate.id_project
+            )
+          } else {
+            notify_owner(
+              `Snapshot ${removed._id} eliminado en ${estimate.name}`,
+              estimate.id_project,
+              estimate.id_owner
+            )
+            notify_col(
+              `Snapshot ${removed._id} eliminado en ${estimate.name}`,
+              estimate.id_project,
+              req.info_user._id
+            )
+          }
+        }
+        res.status(200).json(removed)
+      }
+    } catch (error) {
+      res.status(500).send(error)
+    }
   },
   all: async (req, res) => {
     try {

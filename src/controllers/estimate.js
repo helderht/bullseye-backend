@@ -17,8 +17,9 @@ module.exports = {
       const addedEst = await addEst.save()
       // registrar actividad
       reg_act('Crear estimación', addedEst.id_project, req.info_user._id)
-      //notificar a equipo
+      // notificar a equipo
       notify_team(`Estimación ${addedEst.name} creada`, addedEst.id_project)
+      // crear snapshot raiz
       switch (req.body.way) {
         case 'fp':
           const addFP = new FPsnapshots({
