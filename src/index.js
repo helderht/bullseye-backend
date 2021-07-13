@@ -55,6 +55,10 @@ io.on('connection', socket => {
     socket.broadcast.to(room).emit('update-notifications', {msg: 'colaborador unido'})
   })
   // collaboration leave
+  socket.on('collaboration-leave', ({room}) => {
+    socket.leave(room)
+    socket.broadcast.to(room).emit('update-notifications', {msg: 'colaborador salio'})
+  })
 
   // estimate add
   socket.on('estimate-add', ({room}) => {

@@ -2,7 +2,7 @@ const Collaborations = require('../models/collaborations'),
   Projects = require('../models/projects'),
   md5 = require('md5'),
   {reg_act} = require('../utilities/help_activity'),
-  {notify_col, notify_owner} = require('../utilities/help_notification')
+  {notify_col, notify_owner, notify_team} = require('../utilities/help_notification')
 
 module.exports = {
   add: async (req, res) => {
@@ -45,7 +45,38 @@ module.exports = {
     }
   },
   remove: async (req, res) => {
-    res.send('remove')
+    try {
+      const removed = await Collaborations.findByIdAndDelete(req.params.idcol)
+        .populate('id_user')
+        .populate('id_project')
+      if (removed) {
+        // registrar actividad
+        reg_act('Abandonar proyecto', removed.id_project._id, removed.id_user._id)
+        // notificar al team
+        if (removed.id_user._id.toString() === req.info_user._id.toString()) {
+          console.log('notificar al owner')
+          notify_owner(
+            `${removed.id_user.name} abandono el proyecto ${removed.id_project.name}`,
+            removed.id_project._id,
+            removed.id_project.id_user
+          )
+          notify_col(
+            `${removed.id_user.name} abandono el proyecto ${removed.id_project.name}`,
+            removed.id_project._id,
+            req.info_user._id
+          )
+        } else {
+          console.log('notificar al equipo')
+          notify_team(
+            `${removed.id_user.name} abandono el proyecto ${removed.id_project.name}`,
+            removed.id_project._id
+          )
+        }
+        res.status(200).json(removed)
+      }
+    } catch (error) {
+      res.status(500).send(error)
+    }
   },
   all: async (req, res) => {
     try {
