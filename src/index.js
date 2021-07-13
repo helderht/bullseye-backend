@@ -69,12 +69,13 @@ io.on('connection', socket => {
     socket.broadcast.to(room).emit('update-notifications', {msg: 'estimación modificada'})
   })
   // estimate remove
-
+  socket.on('estimate-remove', ({room}) => {
+    socket.broadcast.to(room).emit('update-notifications', {msg: 'estimación eliminada'})
+  })
   // snapshot add
   socket.on('snapshot-add', ({room}) => {
     socket.broadcast.to(room).emit('update-notifications', {msg: 'snapshot creado'})
   })
-  // sanpshot update
   // sanpshot remove
   socket.on('snapshot-remove', ({room}) => {
     socket.broadcast.to(room).emit('update-notifications', {msg: 'snapshot eliminado'})

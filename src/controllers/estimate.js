@@ -3,7 +3,8 @@ const Estimates = require('../models/estimates'),
   SPsnapshots = require('../models/snapshots_sp'),
   UCPsnapshots = require('../models/snapshots_ucp'),
   {reg_act} = require('../utilities/help_activity'),
-  {notify_team} = require('../utilities/help_notification')
+  {notify_team} = require('../utilities/help_notification'),
+  {rmSnapshotFP, rmSnapshotSP, rmSnapshotUCP, rmMessages} = require('../utilities/help_remove')
 
 module.exports = {
   add: async (req, res) => {
@@ -73,7 +74,38 @@ module.exports = {
     }
   },
   remove: async (req, res) => {
-    res.send('remove')
+    try {
+      const removed = await Estimates.findByIdAndDelete(req.params.idest)
+      if (removed) {
+        // registrar actividad
+        reg_act('Eliminar estimación', removed.id_project, req.info_user._id)
+        // notificar equipo
+        notify_team(`Estimación ${removed.name} eliminado`, removed.id_project)
+        switch (removed.way) {
+          case 'fp':
+            await rmSnapshotFP(req.params.idest)
+            break
+          case 'sp':
+            const snapsp = await SPsnapshots.find({id_estimate: req.params.idest})
+            if (snapsp) {
+              for (const elm of snapsp) {
+                await rmMessages(elm._id)
+              }
+            }
+            await rmSnapshotSP(req.params.idest)
+            break
+          case 'ucp':
+            await rmSnapshotUCP(req.params.idest)
+            break
+          default:
+            console.log('metodo invalido')
+            break
+        }
+      }
+      res.status(200).json(removed)
+    } catch (error) {
+      res.sttus(500).send(error)
+    }
   },
   all: async (req, res) => {
     try {

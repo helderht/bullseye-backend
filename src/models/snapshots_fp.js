@@ -31,4 +31,4 @@ const FPsnapshotsSchema = new Schema({
   id_user: {type: ObjectId, required: true, ref: 'Users'}
 })
 
-module.exports = model('FPsnapshoots', FPsnapshotsSchema)
+module.exports = model('FPsnapshots', FPsnapshotsSchema)

@@ -1,5 +1,6 @@
 const SPsnapshots = require('../models/snapshots_sp'),
   Estimates = require('../models/estimates'),
+  Messages = require('../models/messages'),
   {reg_act} = require('../utilities/help_activity'),
   {notify_owner, notify_team, notify_col} = require('../utilities/help_notification')
 
@@ -38,6 +39,7 @@ module.exports = {
   remove: async (req, res) => {
     try {
       const removed = await SPsnapshots.findByIdAndDelete(req.params.idshot)
+      const chat = await Messages.deleteMany({id_snapshot: req.params.idshot})
       if (removed) {
         // registrar actividad
         const estimate = await Estimates.findById(removed.id_estimate)
