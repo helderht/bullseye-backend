@@ -8,7 +8,8 @@ const http = require('http'),
   express = require('express'),
   socketIO = require('socket.io'),
   cors = require('cors'),
-  router = require('./controllers/router')
+  router = require('./controllers/router'),
+  multer = require('multer')
 
 // database
 require('./db/database')
@@ -19,6 +20,7 @@ app
   .set('port', process.env.PORT || 3000)
   .use(express.urlencoded({extended: false}))
   .use(express.json())
+  .use(multer({dest: path.join(__dirname, '/public/temp')}).single('file'))
   .use(cors())
   .use(router)
   .use(express.static(path.join(__dirname, '/public')))

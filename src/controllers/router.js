@@ -12,7 +12,8 @@ const home = require('./home'),
   activity = require('./activity'),
   notification = require('./notification'),
   message = require('./message'),
-  category = require('./category')
+  category = require('./category'),
+  user = require('./user')
 
 // home
 router.post('/signup', home.signup)
@@ -58,6 +59,8 @@ router.get('/notall', auth.verify_user, notification.all)
 // messages
 router.post('/mesadd', auth.verify_user, message.add)
 router.get('/mesall/:idshot', auth.verify_user, message.all)
+// users
+router.post('/usercover', auth.verify_user, user.cover)
 // categories
 router.post('/catadd', auth.verify_user, category.add)
 router.post('/catupdate', auth.verify_user, category.update)
