@@ -21,5 +21,17 @@ module.exports = {
   },
   rmSnapshotUCP: async idest => {
     return await UCPsnapshots.deleteMany({id_estimate: idest})
+  },
+  rmCollaborations: async idpro => {
+    return await Collaborations.deleteMany({id_project: idpro})
+  },
+  rmEstimates: async idpro => {
+    return await Estimates.deleteMany({id_project: idpro})
+  },
+  rmActivities: async idpro => {
+    return await Activities.deleteMany({id_project: idpro})
+  },
+  rmNotifications: async idpro => {
+    return await Notifications.deleteMany({id_project: idpro})
   }
 }

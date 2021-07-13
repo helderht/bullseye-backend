@@ -101,8 +101,8 @@ module.exports = {
             console.log('metodo invalido')
             break
         }
+        res.status(200).json(removed)
       }
-      res.status(200).json(removed)
     } catch (error) {
       res.sttus(500).send(error)
     }

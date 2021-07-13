@@ -1,8 +1,20 @@
 //imports
 const Projects = require('../models/projects'),
+  Estimates = require('../models/estimates'),
+  SPsnapshots = require('../models/snapshots_sp'),
   md5 = require('md5'),
   {reg_act} = require('../utilities/help_activity'),
-  {notify_team} = require('../utilities/help_notification')
+  {notify_team} = require('../utilities/help_notification'),
+  {
+    rmCollaborations,
+    rmEstimates,
+    rmActivities,
+    rmNotifications,
+    rmMessages,
+    rmSnapshotFP,
+    rmSnapshotSP,
+    rmSnapshotUCP
+  } = require('../utilities/help_remove')
 
 module.exports = {
   add: async (req, res) => {
@@ -38,7 +50,35 @@ module.exports = {
     }
   },
   remove: async (req, res) => {
-    res.send('remove')
+    try {
+      const removed = await Projects.findByIdAndDelete(req.params.idpro)
+      if (removed) {
+        const est = await Estimates.find({id_project: req.params.idpro})
+        if (est) {
+          for (const element of est) {
+            if (element.way === 'sp') {
+              const snapsp = await SPsnapshots.find({id_estimate: element._id})
+              if (snapsp) {
+                for (const elm of snapsp) {
+                  await rmMessages(elm._id)
+                }
+              }
+            }
+            await rmSnapshotFP(element._id)
+            await rmSnapshotSP(element._id)
+            await rmSnapshotUCP(element._id)
+          }
+        }
+        await rmEstimates(req.params.idpro)
+        await rmCollaborations(req.params.idpro)
+        await rmActivities(req.params.idpro)
+        await rmNotifications(req.params.idpro)
+
+        res.status(200).json(removed)
+      }
+    } catch (error) {
+      res.status(500).send(error)
+    }
   },
   all: async (req, res) => {
     try {
