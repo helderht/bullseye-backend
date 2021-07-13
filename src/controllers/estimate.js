@@ -60,7 +60,17 @@ module.exports = {
     }
   },
   update: async (req, res) => {
-    res.send('update')
+    try {
+      const updated = await Estimates.findByIdAndUpdate(req.body._id, req.body)
+      if (updated) {
+        // registrar actividad
+        reg_act('Renombrar Estimación', updated.id_project, req.info_user._id)
+        notify_team(`Estimación ${updated.name} renombrado`, updated.id_project)
+        res.status(200).json(updated)
+      }
+    } catch (error) {
+      res.status(500).send(error)
+    }
   },
   remove: async (req, res) => {
     res.send('remove')

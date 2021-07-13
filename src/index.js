@@ -61,6 +61,9 @@ io.on('connection', socket => {
     socket.broadcast.to(room).emit('update-notifications', {msg: 'estimación creada'})
   })
   // estimate update
+  socket.on('estimate-update', ({room}) => {
+    socket.broadcast.to(room).emit('update-notifications', {msg: 'estimación modificada'})
+  })
   // estimate remove
 
   // snapshot add
