@@ -33,5 +33,11 @@ module.exports = {
   },
   rmNotifications: async idpro => {
     return await Notifications.deleteMany({id_project: idpro})
+  },
+  rmCategories: async iduser => {
+    return await Categories.deleteMany({id_user: iduser})
+  },
+  rmProjects: async iduser => {
+    return await Projects.deleteMany({id_user: iduser})
   }
 }

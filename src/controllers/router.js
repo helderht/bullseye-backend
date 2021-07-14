@@ -61,6 +61,8 @@ router.post('/mesadd', auth.verify_user, message.add)
 router.get('/mesall/:idshot', auth.verify_user, message.all)
 // users
 router.post('/usercover', auth.verify_user, user.cover)
+router.post('/userupdate', auth.verify_user, user.update)
+router.delete('/userremove/:pass', auth.verify_user, user.remove)
 // categories
 router.post('/catadd', auth.verify_user, category.add)
 router.post('/catupdate', auth.verify_user, category.update)
