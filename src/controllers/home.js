@@ -41,5 +41,43 @@ module.exports = {
     } catch (error) {
       res.status(500).send(error)
     }
+  },
+  code: async (req, res) => {
+    try {
+      const user = await Users.findOne({email: req.body.email})
+      if (user) {
+        let code = Math.floor(Math.random() * (99999 - 10000) + 1)
+        user.recovery = code
+        const update = await user.save()
+        let timethen = Date.now()
+        res.status(200).json({code: update.recovery, timethen, email: user.email})
+      } else {
+        res.status(404).json('Email no encontrado')
+      }
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  },
+  restore: async (req, res) => {
+    try {
+      let timenow = Date.now()
+      const user = await Users.findOne({recovery: req.body.code})
+      if (user) {
+        if (timenow - req.body.timethen < 300000) {
+          user.password = await user.encode(req.body.password)
+          user.recovery = null
+          await user.save()
+          res
+            .status(200)
+            .json({tag: 'suc', msg: 'Operación exitosa, inicia con tu contraseña nueva'})
+        } else {
+          user.recovery = null
+          await user.save()
+          res.status(200).json({tag: 'inf', msg: 'El codigo de recuperación ha expirado'})
+        }
+      }
+    } catch (error) {
+      res.status(500).send(error)
+    }
   }
 }
