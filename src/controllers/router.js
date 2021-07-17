@@ -35,21 +35,25 @@ router.post('/estadd', auth.verify_user, estimate.add)
 router.post('/estupdate', auth.verify_user, estimate.update)
 router.delete('/estremove/:idest', auth.verify_user, estimate.remove)
 router.get('/estall/:idpro', auth.verify_user, estimate.all)
+router.get('/estuser', auth.verify_user, estimate.user)
 // function points
 router.post('/fpadd', auth.verify_user, fp.add)
 router.delete('/fpremove/:idshot', auth.verify_user, fp.remove)
 router.get('/fpall/:idest', auth.verify_user, fp.all)
 router.get('/fponly/:idshot', auth.verify_user, fp.only)
+router.get('/fplast', auth.verify_user, fp.last)
 // story points
 router.post('/spadd', auth.verify_user, sp.add)
 router.delete('/spremove/:idshot', auth.verify_user, sp.remove)
 router.get('/spall/:idest', auth.verify_user, sp.all)
 router.get('/sponly/:idshot', auth.verify_user, sp.only)
+router.get('/splast', auth.verify_user, sp.last)
 // use case points
 router.post('/ucpadd', auth.verify_user, ucp.add)
 router.delete('/ucpremove/:idshot', auth.verify_user, ucp.remove)
 router.get('/ucpall/:idest', auth.verify_user, ucp.all)
 router.get('/ucponly/:idshot', auth.verify_user, ucp.only)
+router.get('/ucplast', auth.verify_user, ucp.last)
 // activities
 router.get('/actall/:idpro', auth.verify_user, activity.all)
 // notifications
@@ -66,7 +70,7 @@ router.delete('/userremove/:pass', auth.verify_user, user.remove)
 // categories
 router.post('/catadd', auth.verify_user, category.add)
 router.post('/catupdate', auth.verify_user, category.update)
-router.delete('/catremove', auth.verify_user, category.remove)
+router.delete('/catremove/:idcat', auth.verify_user, category.remove)
 router.get('/catall', auth.verify_user, category.all)
 router.get('/catchart', auth.verify_user, category.chart)
 

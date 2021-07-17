@@ -71,7 +71,7 @@ module.exports = {
   },
   all: async (req, res) => {
     try {
-      const all = await SPsnapshots.find({id_estimate: req.params.idest}).sort({id: -1})
+      const all = await SPsnapshots.find({id_estimate: req.params.idest}).sort({_id: -1})
       if (all) res.status(200).json(all)
     } catch (error) {
       res.status(500).send(error)
@@ -81,6 +81,17 @@ module.exports = {
     try {
       const only = await SPsnapshots.findById(req.params.idshot).populate('id_estimate')
       if (only) res.status(200).json(only)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  },
+  last: async (req, res) => {
+    try {
+      const last = await SPsnapshots.find({id_user: req.info_user._id})
+        .sort({$natural: -1})
+        .populate('id_estimate')
+        .limit(1)
+      if (last) res.status(200).json(last)
     } catch (error) {
       res.status(500).send(error)
     }

@@ -82,5 +82,16 @@ module.exports = {
     } catch (error) {
       res.status(500).send(error)
     }
+  },
+  last: async (req, res) => {
+    try {
+      const last = await FPsnapshots.find({id_user: req.info_user._id})
+        .sort({$natural: -1})
+        .populate('id_estimate')
+        .limit(1)
+      if (last) res.status(200).json(last)
+    } catch (error) {
+      res.status(500).send(error)
+    }
   }
 }

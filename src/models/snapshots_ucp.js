@@ -12,9 +12,9 @@ const UCPsnapshotsSchema = new Schema({
   cases: {
     type: Array,
     default: [
-      {weight: 1, amount: 0},
-      {weight: 2, amount: 0},
-      {weight: 3, amount: 0}
+      {weight: 5, amount: 0},
+      {weight: 10, amount: 0},
+      {weight: 15, amount: 0}
     ]
   },
   technical: {

@@ -116,5 +116,15 @@ module.exports = {
     } catch (error) {
       res.status(500).send(error)
     }
+  },
+  user: async (req, res) => {
+    try {
+      const estuser = await Estimates.find({id_owner: req.info_user._id})
+        .sort({_id: -1})
+        .populate('id_project')
+      if (estuser) res.status(200).json(estuser)
+    } catch (error) {
+      res.status(500).send(error)
+    }
   }
 }
