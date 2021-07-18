@@ -59,8 +59,7 @@ router.get('/ucplast', auth.verify_user, ucp.last)
 // activities
 router.get('/actall/:idpro', auth.verify_user, activity.all)
 // notifications
-router.delete('/notremove/:idnot', auth.verify_user, notification.remove)
-router.post('/notclean/:idpro', auth.verify_user, notification.clean)
+router.delete('/notclean', auth.verify_user, notification.clean)
 router.get('/notall', auth.verify_user, notification.all)
 // messages
 router.post('/mesadd', auth.verify_user, message.add)

@@ -1,11 +1,13 @@
 const Notifications = require('../models/notifications')
 
 module.exports = {
-  remove: async (req, res) => {
-    res.send('remove')
-  },
   clean: async (req, res) => {
-    res.send('clean')
+    try {
+      const removed = await Notifications.deleteMany({id_user: req.info_user._id})
+      if (removed) res.status(200).json(removed)
+    } catch (error) {
+      res.status(500).send(error)
+    }
   },
   all: async (req, res) => {
     try {
