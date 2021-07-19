@@ -31,7 +31,7 @@ const server = http.createServer(app),
   {user_join, user_leave, get_members} = require('./utilities/help_poker')
 
 io.on('connection', socket => {
-  console.log('conectado: ', socket.id)
+  // console.log('conectado: ', socket.id)
   // join to rooms
   socket.on('join-rooms', ({client, rooms}) => {
     if (rooms.length > 0) {
