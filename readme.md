@@ -6,9 +6,9 @@ This projects is API from bullseye FrontEnd
 Follow these steps:
 1. Exec command in your terminal for clone the repository:
 ```
-git clone https://github.com/heldevjs/bullseye-frontend.git
+git clone https://github.com/heldevjs/bullseye-backend.git
 ```
-2. Into to directory
+2. Enter the directory
   ```
 cd bullseye-backend
 ```
@@ -27,7 +27,7 @@ SECRET_KEY=yourSecretKey
 ```
 npm start
 ```
-## Available Scripts
+## Available scripts
 
 ### Run the app in mode producction
 ```
